@@ -2,44 +2,66 @@ import 'dart:developer';
 import 'dart:io';
 
 void main() {
-  myCalculator();
+  myCalculator(false);
 }
 
-myCalculator() {
+newCalculator() {
+  print("Nova operação? Digite 1, para sair digite 2");
+  int newOp = int.parse(stdin.readLineSync()!);
+  switch (newOp) {
+    case 1:
+      myCalculator(false);
+      break;
+    case 2:
+      print(Process.runSync("exit", [], runInShell: true).stdout);
+      break;
+    default:
+      print("Comando incorreto");
+      newCalculator();
+      break;
+  }
+}
+
+myCalculator(restart) {
+  if (restart) {
+    print("Valor inválido, por favor, repita a operação");
+    print("--------------------------------------------");
+    print("\n");
+  }
   print("Bem Vindos à calculadora dart por linha de comando!!!");
   print("avisos: caso digite algum valor irregular o processo se repetirá");
   print("\n");
-  print("Digite um numero: ");
-  int numeroUm = int.parse(stdin.readLineSync()!);
-  print("digite um novo numero:");
-  int numeroDois = int.parse(stdin.readLineSync()!);
-  print("1-adc 2-sub 3-mult 4-div");
+  print("Digite o primeiro numero: ");
+  double numeroUm = double.parse(stdin.readLineSync()!);
+  print("Digite o segundo numero:");
+  double numeroDois = double.parse(stdin.readLineSync()!);
+  print(
+      "[1] - Adicionar | [2] - Subtrair | [3] - Multiplicação | [4] - Divisão");
   int operador = int.parse(stdin.readLineSync()!);
-  int valor;
+  double? valor;
   switch (operador) {
     case 1:
-      int valor = numeroUm + numeroDois;
-      print(valor);
+      valor = numeroUm + numeroDois;
       break;
 
     case 2:
-      int valor = numeroUm - numeroDois;
-      print(valor);
+      valor = numeroUm - numeroDois;
       break;
 
     case 3:
-      int valor = numeroUm * numeroDois;
-      print(valor);
+      valor = numeroUm * numeroDois;
       break;
 
     case 4:
-      double valor = numeroUm / numeroDois;
+      valor = numeroUm / numeroDois;
       break;
 
     default:
       //dar uma olhada nesse comando dps
       var limpar = print(Process.runSync("clear", [], runInShell: true).stdout);
-      myCalculator();
+      myCalculator(true);
       break;
   }
+  print("Resultado: $valor");
+  newCalculator();
 }
